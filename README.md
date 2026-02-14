@@ -52,3 +52,4 @@ python -m PyInstaller --clean --name LoveLettersApp --onedir --noconsole `
 
 Run: open LoveLettersApp.exe.
 Note: the app auto-detects bundled assets and letters and writes Favoritas.txt next to the exe for easy sharing.
+      No Python or python libraries pre-installed needed.
