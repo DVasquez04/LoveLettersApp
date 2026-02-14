@@ -5,6 +5,7 @@
 
 import os
 import random
+import sys
 import customtkinter as ctk
 from PIL import Image
 
@@ -17,15 +18,24 @@ ctk.set_appearance_mode("dark")        # modo oscuro para fondo más agradable
 ctk.set_default_color_theme("blue")
 
 APP_TITLE = "Love Letters ❤️"
-BASE_DIR = os.path.dirname(__file__)
-ASSETS_DIR = os.path.join(BASE_DIR, "assets")
-# Detectar carpeta de cartas en minúsculas o mayúsculas
-LETTERS_DIR = os.path.join(BASE_DIR, "letters")
+# Directorios compatibles con ejecutable PyInstaller
+if getattr(sys, 'frozen', False):
+    EXEC_DIR = os.path.dirname(sys.executable)
+    BUNDLE_DIR = getattr(sys, '_MEIPASS', EXEC_DIR)
+else:
+    EXEC_DIR = os.path.dirname(__file__)
+    BUNDLE_DIR = EXEC_DIR
+
+BASE_DIR = EXEC_DIR
+ASSETS_DIR = os.path.join(BUNDLE_DIR, "assets")
+# Detectar carpeta de cartas en minúsculas o mayúsculas (desde el bundle)
+LETTERS_DIR = os.path.join(BUNDLE_DIR, "letters")
 if not os.path.isdir(LETTERS_DIR):
-    _letters_alt = os.path.join(BASE_DIR, "Letters")
+    _letters_alt = os.path.join(BUNDLE_DIR, "Letters")
     if os.path.isdir(_letters_alt):
         LETTERS_DIR = _letters_alt
-FAVORITES_FILE = os.path.join(BASE_DIR, "Favoritas.txt")
+# Archivo de favoritos en un directorio escribible
+FAVORITES_FILE = os.path.join(EXEC_DIR, "Favoritas.txt")
 
 # Mapeo de nombre de mood -> nombre de carpeta
 MOOD_DIR_MAP = {
